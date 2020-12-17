@@ -15,13 +15,13 @@ namespace MiddlewareLifetimes.Middlewares
 
         private readonly ILogger<Options2Middlware> logger;
 
-        private readonly IOptions<RedisOptions> options;
+        private readonly IOptionsMonitor<RedisOptions> options;
 
         /// <summary>
         /// Crea una nueva instancia de CustomMiddleware
         /// </summary>
         /// <param name="next">A function that can process an HTTP request.</param>
-        public Options2Middlware(RequestDelegate next, ILogger<Options2Middlware> logger, IOptions<RedisOptions> options)
+        public Options2Middlware(RequestDelegate next, ILogger<Options2Middlware> logger, IOptionsMonitor<RedisOptions> options)
         {
             this._next = next;
             this.logger = logger;
@@ -41,7 +41,7 @@ namespace MiddlewareLifetimes.Middlewares
             this.logger.LogInformation("Options Snapshot -------------------------------------------");
             this.logger.LogInformation(snapshot);
 
-            var options = Newtonsoft.Json.JsonConvert.SerializeObject(this.options.Value, Newtonsoft.Json.Formatting.Indented);
+            var options = Newtonsoft.Json.JsonConvert.SerializeObject(this.options.CurrentValue, Newtonsoft.Json.Formatting.Indented);
 
             this.logger.LogInformation("Options Monitor -------------------------------------------");
             this.logger.LogInformation(options);
